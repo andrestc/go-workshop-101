@@ -1,0 +1,48 @@
+Go for Beginners
+Semana da Computação UFRJ
+20 Sep 2017
+
+André Carvalho
+Developer, Globo.com
+asantostc@gmail.com
+http://andrestc.com
+@andresantostc
+
+* Agenda
+
+The following topics will be covered in this workshop:
+
+- Introduction
+- Language Syntax
+- Concurrency
+- Coding!
+
+The last part of the workshop will be focused on building an cli
+application from the ground up and will cover most of the content presented on the first sections
+
+* Language Syntax
+
+In this section we will cover most of the Go syntax with some examples.
+
+We will cover:
+
+- Variables, constants, types, pointers
+- Functions, methods
+- Slices, maps
+- Interfaces
+- Errors
+- Tests
+
+* Concurrency
+
+In this section we will cover one of the most powerfull Go feature: concurrency.
+
+We will cover:
+
+- Concurrency X Parallelism
+- Goroutines
+- Channels
+- Select
+- Sync
+
+
