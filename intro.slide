@@ -8,6 +8,26 @@ asantostc@gmail.com
 http://andrestc.com
 @andresantostc
 
+* License and Materials
+
+This presentation is licensed under the [[https://creativecommons.org/licenses/by-sa/4.0/][Creative Commons Attribution-ShareAlike 4.0 International]] licence.
+
+The materials for this presentation are available on GitHub:
+
+.link https://github.com/andrestc/go-workshop-101
+
+You are encouraged to remix, transform, or build upon the material, providing you give appropriate credit and distribute your contributions under the same license.
+
+If you have suggestions or corrections to this presentation, please raise [[https://github.com/andrestc/go-workshop-101/issues][an issue on the GitHub project]].
+
+* License and Materials
+
+This slide deck is based contains some slides from:
+
+.link https://github.com/davecheney/introduction-to-go/ Dave Cheney, Introduction to Go.
+
+.link https://talks.golang.org/2014/taste.slide Robert Griesemer, A Taste of Go.
+
 * Agenda
 
 The following topics will be covered in this workshop:
@@ -30,8 +50,6 @@ application from the ground up and will cover most of the content presented on t
 - Fast compilation, efficient execution
 - Great support for concurrency!
 
-.link https://talks.golang.org/2014/taste.slide#2 Robert Griesemer, A Taste of Go.
-
 * Hello, Go!
 
 Let's write our first Go program.
@@ -47,31 +65,23 @@ In this section we will cover most of the Go syntax with some examples.
 We will cover:
 
 - Variables, constants, types, pointers
+- Statements
 - Functions, methods
 - Slices, maps
 - Interfaces
-- Errors
-- Tests
 
-* Types
+* Constants
 
-- Predeclared types, the usual suspects:
-	uint8 (byte), uint16, uint32, uint32, uint64,
-	int8, int16, int32, int32 (rune), int64,
-	float32, float64,
-	complex64, complex128,
-	uint, int, uintptr,
-	bool, string,
-	error  // not so usual
+- Maintained precisely:
+	const e = 2.71828182845904523536028747135266249775724709369995957496696763
+	const third = 1.0/3
+- Typed or without type:
+	const M64 int64 = 1<<20
+        const M = 1<<20
+- Evaluated at compile-time:
+	const big = 1<<100 / 1e30  // valid constant expression
 
-- Composite types:
-	array, struct, pointer, function,
-	slice, map, channel
-
-- Abstract type:
-	interface
-
-.link https://talks.golang.org/2014/taste.slide#8 Robert Griesemer, A Taste of Go.
+Compiler complains if a constant doesn't fit where it is _used_.
 
 * Variables
 
@@ -91,7 +101,184 @@ We will cover:
 	return &x
 # compiler will do the right thing
 
-.link https://talks.golang.org/2014/taste.slide#7 Robert Griesemer, A Taste of Go.
+* Types
+
+- Predeclared types, the usual suspects:
+	uint8 (byte), uint16, uint32, uint32, uint64,
+	int8, int16, int32, int32 (rune), int64,
+	float32, float64,
+	complex64, complex128,
+	uint, int, uintptr,
+	bool, string,
+	error  // not so usual
+
+- Composite types:
+	array, struct, pointer, function,
+	slice, map, channel
+
+- Abstract type:
+	interface
+
+* Type declarations
+
+- Composition from left-to-right (Pascal style):
+	[10]byte  // array of 10 bytes
+
+	struct {
+		name        string
+		left, right *Node
+		action      func(*Node)
+	}
+
+	func(a, b, c int)
+	func(http.ResponseWriter, *http.Request) error
+
+- A type declaration defines a _new_ type:
+	type Weekday int
+
+	type Point struct {
+		x, y int
+	}
+
+* Statements
+
+- Curly braces (C style)
+- Multiple assignments and some other new constructs
+- Many cleanups: mandatory braces, no parentheses for conditionals, implicit break in switches, no semicolons, etc.
+	a, b = b, a                 // swap
+	f, err = os.Open(filename)
+
+	if x < y {
+		return x
+	} else {
+		return y
+	}
+
+	switch day {
+	case Mon:
+		...
+		// break is implicit
+	case Tue, Wed:
+		...
+	}
+
+* Functions
+
+- Regular functions
+	func Sin(x float64) float64
+	func AddScale(x, y int, f float64) int
+
+- Multiple return values
+	func Write(data []byte) (written int, err error)
+
+- Variadic parameter lists without magic
+	func Printf(format string, args ...interface{})
+
+- Functions are first-class values
+	var delta int
+	return func(x int) int { return x + delta }
+
+* Methods
+
+Methods are functions with a _receiver_ parameter:
+
+: .code taste/point.go /String START/,/String END/
+
+The receiver binds the method to its _base_type_ (Point):
+
+: .code taste/point.go /Point START/,/Point END/
+
+Methods are invoked via the usual dot notation:
+
+: .play taste/point.go /main START/,/main END/
+
+
+* Methods can be defined for any user-defined type!
+
+For the Weekday type:
+
+: .code taste/weekday.go /type START/,/type END/
+
+Define String method on Weekday:
+
+: .code taste/weekday.go /String START/,/String END/
+
+: .play taste/weekday.go /main START/,/main END/
+
+Method calls via non-interface types are statically dispatched.
+
+* Slices
+
+	[]T  // slice of T
+
+- Descriptor for an underlying array segment
+- May grow and shrink
+- Has length and capacity
+- Assigning a slice copies the descriptor, not the underlying array
+
+Common slice operations:
+
+	len(s)
+	s[i]
+	s[i:j]
+	append(s, x)  // append element x to slice s and return new slice
+
+- Slices play the role of dynamically sized arrays
+- Widely used in Go code
+
+
+* Maps
+
+	map[K]V  // map K -> V
+
+- Map is a language-supplied hash table
+- Maps values of key type K to values of type V
+- Assigning a map copies the map reference, not the map contents
+
+Common map operations:
+
+	make(map[K]V)
+	len(m)
+	m[k]
+	delete(m, k)
+
+- Map iteration order is not specified:
+
+	for key, value := range m {
+		// order of key sequence different each time
+	}
+
+* Interface types
+
+- Abstract
+- Define (possibly empty) set of method signatures
+- Values of _any_type_ that implement all methods of an interface can be assigned to a variable of that interface.
+
+Examples:
+
+	interface{}  // empty interface
+
+	interface {
+		String() string
+	}
+
+	interface {
+		Len() int
+		Swap(i, j int)
+		Less(i, j int) bool
+	}
+
+
+* Using interfaces
+
+: .code taste/stringer.go /Stringer START/,/Stringer END/
+
+Both Weekday and Point define a String method, so values of both can be assigned to
+a variable of Stringer type:
+
+: .play taste/stringer.go /main START/,/main END/
+
+Method calls via interface types are dynamically dispatched ("virtual function call").
 
 * Concurrency
 
