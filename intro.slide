@@ -20,6 +20,26 @@ The following topics will be covered in this workshop:
 The last part of the workshop will be focused on building an cli
 application from the ground up and will cover most of the content presented on the first sections
 
+* Introduction
+
+- Modern
+- Compact, concise, general-purpose
+- Imperative, statically type-checked, dynamically type-safe
+- Garbage-collected
+- Compiles to native code, statically linked
+- Fast compilation, efficient execution
+- Great support for concurrency!
+
+.link https://talks.golang.org/2014/taste.slide#2 Robert Griesemer, A Taste of Go.
+
+* Hello, Go!
+
+Let's write our first Go program.
+
+.play -edit src/hello/hello.go
+
+Feel free to edit the message and re-run the code.
+
 * Language Syntax
 
 In this section we will cover most of the Go syntax with some examples.
@@ -32,6 +52,46 @@ We will cover:
 - Interfaces
 - Errors
 - Tests
+
+* Types
+
+- Predeclared types, the usual suspects:
+	uint8 (byte), uint16, uint32, uint32, uint64,
+	int8, int16, int32, int32 (rune), int64,
+	float32, float64,
+	complex64, complex128,
+	uint, int, uintptr,
+	bool, string,
+	error  // not so usual
+
+- Composite types:
+	array, struct, pointer, function,
+	slice, map, channel
+
+- Abstract type:
+	interface
+
+.link https://talks.golang.org/2014/taste.slide#8 Robert Griesemer, A Taste of Go.
+
+* Variables
+
+- Statically typed:
+	var x int
+	var s, t string
+- Implicitly or explicitly initialized:
+	var x int
+	var s, t string = "foo", "bar"  // multiple assignment
+
+	var x = 42                      // int
+	var s, b = "foo", true          // string, bool
+- Short variable declaration (inside functions only):
+	x := 42
+	s, b := "foo", true
+- Can safely take address of _any_ variable!
+	return &x
+# compiler will do the right thing
+
+.link https://talks.golang.org/2014/taste.slide#7 Robert Griesemer, A Taste of Go.
 
 * Concurrency
 
