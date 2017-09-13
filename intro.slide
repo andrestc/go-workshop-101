@@ -142,25 +142,47 @@ Compiler complains if a constant doesn't fit where it is _used_.
 
 * Statements
 
-- Curly braces (C style)
-- Multiple assignments and some other new constructs
-- Many cleanups: mandatory braces, no parentheses for conditionals, implicit break in switches, no semicolons, etc.
+- Assignments
 	a, b = b, a                 // swap
 	f, err = os.Open(filename)
 
-	if x < y {
-		return x
-	} else {
-		return y
-	}
+- If
+    if x < y {
+        return x
+    } else {
+        return y
+    }
 
-	switch day {
-	case Mon:
-		...
-		// break is implicit
-	case Tue, Wed:
-		...
-	}
+- Switch
+    switch day {
+    case Mon:
+    	...
+    	// break is implicit; can use "fallthrough"
+    case Tue, Wed:
+        ...
+    }
+
+* Statements
+
+- For
+    for i := range []int{0, 1, 2, 3, 4} {
+
+    }
+
+    for i, v := range []int{4, 3, 2, 1, 0} {
+
+    }
+
+    for a < b {
+        a = a+1
+    }
+
+    for {
+        
+    }
+    
+- break
+- continue
 
 * Functions
 
