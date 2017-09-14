@@ -180,7 +180,7 @@ Compiler complains if a constant doesn't fit where it is _used_.
     for {
         
     }
-    
+
 - break
 - continue
 
@@ -204,30 +204,15 @@ Compiler complains if a constant doesn't fit where it is _used_.
 
 Methods are functions with a _receiver_ parameter:
 
-: .code taste/point.go /String START/,/String END/
+.code src/point.go /String START/,/String END/
 
 The receiver binds the method to its _base_type_ (Point):
 
-: .code taste/point.go /Point START/,/Point END/
+.code src/point.go /Point START/,/Point END/
 
 Methods are invoked via the usual dot notation:
 
-: .play taste/point.go /main START/,/main END/
-
-
-* Methods can be defined for any user-defined type!
-
-For the Weekday type:
-
-: .code taste/weekday.go /type START/,/type END/
-
-Define String method on Weekday:
-
-: .code taste/weekday.go /String START/,/String END/
-
-: .play taste/weekday.go /main START/,/main END/
-
-Method calls via non-interface types are statically dispatched.
+.play src/point.go /main START/,/main END/
 
 * Slices
 
@@ -293,25 +278,64 @@ Examples:
 
 * Using interfaces
 
-: .code taste/stringer.go /Stringer START/,/Stringer END/
+.code src/stringer.go /Stringer START/,/Stringer END/
 
 Both Weekday and Point define a String method, so values of both can be assigned to
 a variable of Stringer type:
 
-: .play taste/stringer.go /main START/,/main END/
+.play src/stringer.go /main START/,/main END/
 
 Method calls via interface types are dynamically dispatched ("virtual function call").
 
 * Concurrency
 
-In this section we will cover one of the most powerfull Go feature: concurrency.
+* Goroutines
 
-We will cover:
+- The _go_ statement launches a function call as a goroutine
+	go f()
+	go f(x, y, ...)
 
-- Concurrency X Parallelism
-- Goroutines
-- Channels
-- Select
-- Sync
+- A goroutine runs concurrently (but not necessarily in parallel)
+- A goroutine has its own stack
+
+
+* A simple example
+
+.code src/concurrency1.go /f START/,/f END/
+
+Function f is launched as 3 different goroutines, all running concurrently:
+
+.play -edit src/concurrency1.go /main START/,/main END/
+
+
+* Communication via channels
+
+A channel type specifies a channel value type (and possibly a communication direction):
+
+	chan int
+	chan<- string  // send-only channel
+	<-chan T       // receive-only channel
+
+A channel is a variable of channel type:
+
+	var ch chan int
+	ch := make(chan int)  // declare and initialize with newly made channel
+
+A channel permits _sending_ and _receiving_ values:
+
+	ch <- 1   // send value 1 on channel ch
+	x = <-ch  // receive a value from channel ch (and assign to x)
+
+Channel operations synchronize the communicating goroutines.
+
+* Communicating goroutines
+
+Each goroutine sends its results via channel ch:
+
+.code src/concurrency2.go /f START/,/f END/
+
+The main goroutine receives (and prints) all results from the same channel:
+
+.play src/concurrency2.go /main START/,/main END/
 
 
