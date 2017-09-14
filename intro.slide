@@ -32,13 +32,11 @@ This slide deck is based contains some slides from:
 
 The following topics will be covered in this workshop:
 
-- Introduction
-- Language Syntax
+- Language
 - Concurrency
 - Coding!
 
-The last part of the workshop will be focused on building an cli
-application from the ground up and will cover most of the content presented on the first sections
+* Language
 
 * Introduction
 
@@ -58,7 +56,7 @@ Let's write our first Go program.
 
 Feel free to edit the message and re-run the code.
 
-* Language Syntax
+* Language
 
 In this section we will cover most of the Go syntax with some examples.
 
@@ -307,6 +305,7 @@ Function f is launched as 3 different goroutines, all running concurrently:
 
 .play -edit src/concurrency1.go /main START/,/main END/
 
+- Try removing time.Sleep from main(). What happened?
 
 * Communication via channels
 
