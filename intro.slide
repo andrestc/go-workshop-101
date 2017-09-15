@@ -345,44 +345,244 @@ Methods are invoked via the usual dot notation:
 
 * Slices
 
-	[]T  // slice of T
+The next kind of type to discuss is the _Slice_. 
 
-- Descriptor for an underlying array segment
-- May grow and shrink
-- Has length and capacity
-- Assigning a slice copies the descriptor, not the underlying array
+A slice is an ordered collection of values of a _single_ type.
 
-Common slice operations:
+The syntax for declaring a slice variable is very similar to declaring a _scalar_ variable.
 
-	len(s)
-	s[i]
-	s[i:j]
-	append(s, x)  // append element x to slice s and return new slice
+ var i int      // an int called i
+ var j []int    // a slice of ints called j
 
-- Slices play the role of dynamically sized arrays
-- Widely used in Go code
+In this example, 
+
+- `i` is a variable of type `int`. 
+- `j` is a variable of type `[]int`, that is, a slice of `int`.
+
+Slices are very important in Go programs, so we'll spend a bit of time discussing them.
+
+_note_: A slice is _not_ an array. Go also supports arrays, but you'll see later than they aren't very common, or very easy to use, so we won't discuss them at the moment.
+
+* How large is a slice?
+
+If I declare a slice, `[]int`, how many items can it hold?
+
+The _zero_value_ of a slice is empty, that is, it has a _length_ of zero; it can hold 0 items.
+
+.play -edit src/slices/slices1/main.go
+
+We can retrieve the length of a slice with the built-in `len` function.
+
+- Follow [[https://play.golang.org/p/gZYvdE2zbT][this link]] and press the *Run* button.
+- Did you guess the right answer?
+
+* Making a slice
+
+We can create a slice with space to hold items using the built-in `make` function.
+
+.code -edit src/slices/slices2/main.go
+
+In this example, on the first line `var i []int` declares `i` to be a slice of `int`.
+
+On the second line, `i` is _assigned_ the result of `make([]int,`20)`.
+
+- Follow [[https://play.golang.org/p/i_IWqjik6u][this link]] and press the *Run* button.
+- Did `fmt.Println(len(i))` print the result you expected?
+
+* Making a slice (cont.)
+
+Because declaring a slice variable and initalising it with `make` is a common operation, it is common to see the _short_variable_declaration_ used to combine this operations.
+
+.code -edit src/slices/slices3/main.go
+
+This example declares `i` _and_ initalises it to be a slice of `int` with a length of 20.
+
+- Follow [[https://play.golang.org/p/b92SJ0Gx9s][this link]] and press the *Run* button.
+- Did `fmt.Println(len(i))` print the result you expected?
+
+* Slice exercises
+
+Let's do a quick exercise to familarise yourself with using slices.
+
+.code -edit src/slices/slices4/main.go
+
+- Follow [[https://play.golang.org/p/AJk1Jgp1iE][this link]] for instructions.
+- Declare a variable called `i` which is a slice of 5 `int`.
+- Declare a variable called `f` which is a slice of 9 `float64`.
+- Declare a variable called `s` which is a slice of 4 `string`.
+- Does your program print the expected result, `5`9`4`?
+
+* Index expressions
+
+To access, or assign, the contents of a slice element at index `i`, use the form `s[i]`.
+
+Slices are zero indexed, so `s[0]` is the 1st element, `s[1]` is the second element, and so on.
+
+When the _index_expression_ appears on the _left_hand_side_ of the equals operator, `=`
+
+ s[7] = 20
+
+We are assigning the number 20 to the 8'th element of the slice `s`.
+
+When the _index_expression_ appears on the _right_hand_side_ of the equals operator, `=`
+
+ x := s[7]
+
+We are assigning the value at the 8th element of `s` to the variable `x`.
+
+* Slice zero value
+
+We saw earlier that the _zero_value_ of the slice
+
+ var s []int
+
+was and empty slice, a slice with length of zero.
+
+What is the value of each of the elements of a newly created, with make, slice?
+
+.play -edit src/slices/slices5/main.go
+
+- Follow [[https://play.golang.org/p/kGh_C1l6KW][this link]] and press the *Run* button.
+- Did the program print the result you expected?
+
+* Slice initialisation
+
+We want to create an `[]int` slice of the first 10 prime numbers, how could we do this?
+
+One solution could be to create the slice and assign a value to each element in the slice.
+
+.play -edit src/slices/slices6/main.go
+
+* Slice initialisation (cont.)
+
+Doing this manually is verbose and boring; how would you do this for the first 50 primes?
+
+Go supports a method of assignment where we both _declare_ and _initalise_ the slice at once.
+
+.play -edit src/slices/slices7/main.go
+
+This is called the _composite_literal_ syntax.
+
+- Follow [[https://play.golang.org/p/P-eBqzPCWh][this link]] and complete the exercise.
+
+* append
+
+So far we've been using slices with a known length. You can extend the contents of a slice with the built-in `append` function.
+
+.play -edit src/slices/slices8/main.go
+
+`append` increases the length of the slice to accommodate the new items, then returns a new slice value.
+
+You can `append` multiple values in one statement, providing they are all the same type.
+
+.link https://blog.golang.org/slices Further reading: Arrays, slices (and strings): The mechanics of 'append' (blog.golang.org)
+
+* Subslices
+
+What if we have a large slice, and want to refer to only a part of it. 
+
+We call this slicing a slice, or _subslicing_.
+
+Subslicing looks similar to the _indexing_ operation we saw a few slide ago, except it refers to a range of slice indexes.
+
+.play -edit src/slices/slices12/main.go
+
+The expression `brothers[0:3]` evaluates to a slice of the 1st to 3rd Marx brother.
+
+- Follow [[https://play.golang.org/p/d1-jl42aTF][this link]] and complete the exercise.
+
+* Subslices (cont.)
+
+An important thing to remember when slicing a slice, is that both slices refer to the _same_ underying data.
+
+.play -edit src/slices/slices10/main.go
+
+To create two independent slice values, you would use the `copy` function, which we'll discuss later.
+
+* Bounds checking
+
+Each slice has a length which is decided when it is made.
+
+You can increase the length of the slice with the `append` function, and create a smaller slice from a larger one using the slice operator.
+
+What happens if you accidentally exceed the bounds of the slice?
+
+.play -edit src/slices/slices11/main.go
+
+- Follow [[https://play.golang.org/p/mIWm0a1amp][this link]] and press the *Run* button.
+- Comment out `fmt.Println(primes[-1])` and see what happens.
 
 
 * Maps
 
-	map[K]V  // map K -> V
+Go has a built in Hash Map type, called a `map`.
 
-- Map is a language-supplied hash table
-- Maps values of key type K to values of type V
-- Assigning a map copies the map reference, not the map contents
+Maps map values of key type K to values of type V
 
-Common map operations:
+ var m map[string]int
 
-	make(map[K]V)
-	len(m)
-	m[k]
-	delete(m, k)
+Just like making a slice, making a map is accomplished with the `make` built-in.
 
-- Map iteration order is not specified:
+.play -edit src/maps/maps1/main.go
 
-	for key, value := range m {
-		// order of key sequence different each time
-	}
+* Inserting values into a map
+
+Inserting a value into a map looks similar to assigning a value to a slice element.
+
+.play -edit src/maps/maps2/main.go
+
+If an entry already exits with that key, it will be overwritten.
+
+- Follow [[https://play.golang.org/p/a-V5I0nZ5l][this link]] and complete the exercise.
+
+_note_: maps are always _unordered_.
+
+* Compact literal initalisation
+
+Just like slices, maps support compact literal initalisation, which declares and initalises the map.
+
+.play -edit src/maps/maps3/main.go
+
+* Retrieving a values from a map
+
+Just like a slice, you can retrieve the value stored in a map with the syntax `m[key]`.
+
+If it is present the value will be returned, if not the _zero_value_ will be returned.
+
+.play -edit src/maps/maps4/main.go
+
+* Checking if a map value exists
+
+In the previous slide we saw that `moons["Neptune"]` returned `0`.
+
+How can we tell if Neptune actually has no moons, or if `0` was returned because there is no entry for Neptune?
+
+Map look ups support a second syntax.
+
+.play -edit src/maps/maps5/main.go
+
+* Deleting a value from a map
+
+To delete a value from a map, you use the built in `delete` function.
+
+.play -edit src/maps/maps6/main.go
+
+* Iterating over a map
+
+If we wanted to print out all the values in a map we can use a form of the `for` syntax which is known as `range`.
+
+.play -edit src/range/range1/main.go
+
+`range` loops over each entry in the map, assigning the map key to `name`, and the map value to `pop`.
+
+* Range over slices
+
+We say previously that `for`range` works with maps, it also works with slices.
+
+.play -edit src/range/range2/main.go
+
+- Follow [[https://play.golang.org/p/AmQW-OrPC1][this link]] and complete the exercise.
+- If you cannot figure it out, don't worry, there is an answer on the next slide.
 
 * Interface types
 
