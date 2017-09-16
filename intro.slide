@@ -380,7 +380,7 @@ We can retrieve the length of a slice with the built-in `len` function.
 
 We can create a slice with space to hold items using the built-in `make` function.
 
-.code -edit src/slices/slices2/main.go
+.play -edit src/slices/slices2/main.go
 
 In this example, on the first line `var i []int` declares `i` to be a slice of `int`.
 
@@ -582,7 +582,8 @@ We say previously that `for`range` works with maps, it also works with slices.
 .play -edit src/range/range2/main.go
 
 - Follow [[https://play.golang.org/p/AmQW-OrPC1][this link]] and complete the exercise.
-- If you cannot figure it out, don't worry, there is an answer on the next slide.
+- Tip: remember the switch statement.
+: - If you cannot figure it out, don't worry, there is an answer on the next slide.
 
 * Interface types
 
@@ -616,6 +617,37 @@ a variable of Stringer type:
 
 Method calls via interface types are dynamically dispatched ("virtual function call").
 
+* Error handling
+
+You probably spotted that lots of methods and functions in the Go standard library return a value of type `error`. 
+
+`error` is a _predeclared_type_, just like `int`, `string`, etc.
+
+`error` is an interface, it's declaration is
+
+ type error interface {
+         Error() string
+ }
+
+Any type that has an `Error()`string` method, _implements_ the `error` interface.         
+
+* Nil
+
+`nil` is Go's version of `NULL`, `null`, `void`.
+
+- The zero value of an interface type is `nil`.
+- The zero value of a pointer type is `nil`.
+
+Go uses the `error` interface and a simple convention to implement error handling.
+
+- If no error occurs, the `err` value returned from a function or method will equal nil.
+- If an error occurs, the `err` value returned from a function or method will not equal nil.
+
+	result, err := thisMayFail()
+	if err != nil {
+			// cleanup and handle error
+	}
+
 * Concurrency
 
 * Goroutines
@@ -626,7 +658,6 @@ Method calls via interface types are dynamically dispatched ("virtual function c
 
 - A goroutine runs concurrently (but not necessarily in parallel)
 - A goroutine has its own stack
-
 
 * A simple example
 
@@ -670,4 +701,27 @@ The main goroutine receives (and prints) all results from the same channel:
 
 - Try removing the go calls. What happened?
 
+* Let's build a web crawler together!
 
+* Web crawlers
+
+- Web crawlers follow links in pages and parse their content
+- Web crawlers start their work from *seeds* (user provided urls)
+- One of the components of search engines and usefull for data mining
+
+* We will need to
+
+- Get websites from the internet (net/http package)
+- A way to parse the content (golang.org/x/net/html package)
+- Read the seeds from user input (os package)
+
+* Starting code
+
+- A basic project structure is in github.com/andrestc/go-crawler
+- You can download go projects using *go*get*
+	go get -u github.com/andrestc/go-crawler
+
+- go to the project directory
+	cd $GOPATH/src/github.com/andrestc/go-crawler
+
+- Open it up on your editor and take a look at what is there
