@@ -25,9 +25,9 @@ $ present
 
 Some of the used material is a copy (with minor changes) from:
 
-[https://github.com/davecheney/introduction-to-go/](Dave Cheney, Introduction to Go.)
+[Dave Cheney, Introduction to Go.](https://github.com/davecheney/introduction-to-go/)
 
-[https://talks.golang.org/2014/taste.slide](Robert Griesemer, A Taste of Go.)
+[Robert Griesemer, A Taste of Go.](https://talks.golang.org/2014/taste.slide)
 
 
 # License and Materials
