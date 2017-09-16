@@ -1,5 +1,5 @@
 # go-workshop-101
-This is a introduction to Go workshop
+This is a introduction to Go workshop. Work in progress.
 
 # Running locally
 
