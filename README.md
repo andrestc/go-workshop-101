@@ -21,6 +21,15 @@ $ go get -u golang.org/x/tools/cmd/present
 $ present
 ```
 
+# Disclaimer
+
+Some of the used material is a copy (with minor changes) from:
+
+[https://github.com/davecheney/introduction-to-go/](Dave Cheney, Introduction to Go.)
+
+[https://talks.golang.org/2014/taste.slide](Robert Griesemer, A Taste of Go.)
+
+
 # License and Materials
 
 This presentation is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/) licence.
