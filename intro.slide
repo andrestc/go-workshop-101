@@ -361,7 +361,7 @@ In this example,
 
 Slices are very important in Go programs, so we'll spend a bit of time discussing them.
 
-_note_: A slice is _not_ an array. Go also supports arrays, but you'll see later than they aren't very common, or very easy to use, so we won't discuss them at the moment.
+_note_: A slice is _not_ an array. Go also supports arrays, but you'll see later that they aren't very common, or very easy to use, so we won't discuss them at the moment.
 
 * How large is a slice?
 
@@ -369,7 +369,7 @@ If I declare a slice, `[]int`, how many items can it hold?
 
 The _zero_value_ of a slice is empty, that is, it has a _length_ of zero; it can hold 0 items.
 
-.play -edit src/slices/slices1/main.go
+.code src/slices/slices1/main.go
 
 We can retrieve the length of a slice with the built-in `len` function.
 
@@ -380,7 +380,7 @@ We can retrieve the length of a slice with the built-in `len` function.
 
 We can create a slice with space to hold items using the built-in `make` function.
 
-.play -edit src/slices/slices2/main.go
+.code src/slices/slices2/main.go
 
 In this example, on the first line `var i []int` declares `i` to be a slice of `int`.
 
@@ -440,7 +440,7 @@ was and empty slice, a slice with length of zero.
 
 What is the value of each of the elements of a newly created, with make, slice?
 
-.play -edit src/slices/slices5/main.go
+.code src/slices/slices5/main.go
 
 - Follow [[https://play.golang.org/p/kGh_C1l6KW][this link]] and press the *Run* button.
 - Did the program print the result you expected?
@@ -507,7 +507,7 @@ You can increase the length of the slice with the `append` function, and create 
 
 What happens if you accidentally exceed the bounds of the slice?
 
-.play -edit src/slices/slices11/main.go
+.code src/slices/slices11/main.go
 
 - Follow [[https://play.golang.org/p/mIWm0a1amp][this link]] and press the *Run* button.
 - Comment out `fmt.Println(primes[-1])` and see what happens.
@@ -577,7 +577,7 @@ If we wanted to print out all the values in a map we can use a form of the `for`
 
 * Range over slices
 
-We say previously that `for`range` works with maps, it also works with slices.
+We said previously that `for`range` works with maps, it also works with slices.
 
 .play -edit src/range/range2/main.go
 
