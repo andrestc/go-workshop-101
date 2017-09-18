@@ -174,8 +174,6 @@ It is common that you need to change the value stored in a variable, this is cal
 
 .play -edit src/assignment/assignment1/main.go /START OMIT/,/END OMIT/
 
-In this example, we declare
-
 - Press *Run* to check that program prints, `1`, `2`, `4`.
 # - Update the program to declare a new variable, `z`, which has a value 2x larger than `y`.
 
