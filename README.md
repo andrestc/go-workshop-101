@@ -1,6 +1,10 @@
 # go-workshop-101
 This is a introduction to Go workshop. Work in progress.
 
+# View online
+
+This is slides are available at: https://go-talks.appspot.com/github.com/andrestc/go-workshop-101/intro.slide
+
 # Running locally
 
 ### Clone this repository
